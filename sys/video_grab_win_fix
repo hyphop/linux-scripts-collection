@@ -1,0 +1,30 @@
+#!/bin/sh
+
+## hyphop ##
+
+t=`date +%s`
+
+# https://unix.stackexchange.com/questions/14159/how-do-i-find-the-window-dimensions-and-position-accurately-including-decoration
+
+  eval $(xwininfo -id $(xdotool getactivewindow) |
+    sed -n -e "s/^ \+Absolute upper-left X: \+\([0-9]\+\).*/x=\1/p" \
+           -e "s/^ \+Absolute upper-left Y: \+\([0-9]\+\).*/y=\1/p" \
+           -e "s/^ \+Width: \+\([0-9]\+\).*/w=\1/p" \
+           -e "s/^ \+Height: \+\([0-9]\+\).*/h=\1/p" )
+#  echo -n "$x $y $w $h"
+
+V="/tmp/video_grab_$t.mkv"
+echo "[i] grab to => $V" >&2
+s=${w}x${h}
+
+a="-region_border 5 -show_region 1"
+
+verbose="-loglevel quiet"
+
+ffmpeg $verbose  \
+	-f x11grab -r 30 \
+	$a -s $s -i :0.0+$x,$y \
+	-vcodec nvenc \
+	-preset hq \
+	-tune film \
+	-threads 1 $V

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+## hyphop ##
+
+curl -s ifconfig.co/json | json_pp
+

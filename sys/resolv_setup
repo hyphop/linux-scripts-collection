@@ -1,0 +1,8 @@
+#!/bin/sh
+
+## hyphop ##
+
+echo "RESOLV_SETUP"
+
+echo nameserver 8.8.8.8 > /etc/resolv.conf
+

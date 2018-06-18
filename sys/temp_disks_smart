@@ -1,0 +1,22 @@
+#!/bin/sh
+
+## hyphop ##
+
+# need root perms
+# or
+# sudo ./sys_drop_cache
+[ "$USER" != "root" ] && {
+    echo "[i] sudo $0" >&2
+    sudo $0
+    exit 0
+}
+
+
+for i in /dev/sd?; do
+
+    echo "= $i ="
+    smartctl -d ata -A $i | grep -i temper
+
+done
+
+

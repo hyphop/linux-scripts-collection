@@ -1,0 +1,6 @@
+#!/bin/sh
+
+## hh ##
+
+echo mem > /sys/power/state 
+

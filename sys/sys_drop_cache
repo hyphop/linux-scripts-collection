@@ -1,0 +1,23 @@
+#!/bin/sh
+
+## hyphop ##
+
+# drop linux fs caches
+
+# need root perms
+# or
+# sudo ./sys_drop_cache
+[ "$USER" != "root" ] && {
+    echo "[i] sudo $0" >&2
+    sudo $0
+    exit 0
+}
+
+## drop caches
+echo "[i] mem before" >&2
+free >&2
+echo "[i] drop caches" >&2
+echo 1 > /proc/sys/vm/drop_caches
+echo "[i] mem " >&2
+free >&2
+

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+## hyphop ##
+
+t=`date +%s`
+
+V="/tmp/video_grab_$t.mkv"
+echo "[i] grab to => $V"
+s=1920x1080
+
+#a="-region_border 5 -show_region 1 -follow_mouse 10"
+
+verbose="-loglevel quiet"
+
+ffmpeg $verbose  \
+	-f x11grab -r 30 \
+	$a -s $s -i :0.0 \
+	-vcodec nvenc \
+	-preset hq \
+	-tune film \
+	-threads 1 $V

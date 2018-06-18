@@ -1,0 +1,63 @@
+#!/bin/sh
+
+## hyphop ##
+
+BIN=$0
+PROG=`basename $0`
+
+permup(){
+
+# need root perms
+# or
+# sudo ./sys_drop_cache
+
+[ "$USER" != "root" ] && {
+    echo "[i] sudo $BIN $@" >&2
+    sudo "$BIN" "$@"
+    exit 0
+}
+
+}
+
+LABEL="$1"
+
+[ "$LABEL" ] || {
+    permup "$@"
+    blkid -s LABEL
+    exit 0
+}
+
+##
+LABEL=`basename "$LABEL"`
+
+MNTD=/mnt
+MNT=$MNTD/$LABEL
+MOUNTED=
+
+eval `blkid -l -t LABEL="$LABEL" -o export`
+
+
+[ "$DEVNAME" ] || {
+    echo  "[e] LABEL: $LABEL not found" >&2
+    exit 0
+}
+
+    MOUNTED=`grep "$DEVNAME " /proc/mounts`
+
+[ "$MOUNTED" ] ||
+    MOUNTED=`grep "$MNT " /proc/mounts`
+
+[ "$MOUNTED" ] && {
+    echo "[w] already mounted LABEL=$LABEL => $MNT" >&2
+    echo $MOUNTED >&2
+    exit 0
+} 
+
+
+permup "$@"
+
+[ "$TYPE" = "vfat" ] && ARG="$ARG -o iocharset=utf8,codepage=866"
+
+echo "[i] mount ($TYPE) LABEL=$LABEL $ARG $MNT" >&2
+mount "LABEL=$LABEL" $ARG "$MNT"
+

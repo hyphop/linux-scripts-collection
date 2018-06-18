@@ -1,0 +1,45 @@
+#!/bin/sh
+
+## hyphop ##
+
+d=/sys/class/backlight/intel_backlight/
+
+m=$d/max_brightness
+b=$d/brightness
+
+
+now=`cat $b`
+max=`cat $m`
+
+p=$((now*100/max))
+
+
+[ "$@" ] || {
+    echo "$now ($p)"
+    exit 0
+}
+
+case "$1" in
+
+    +*)
+    n=$((p $1))
+    break
+    ;;
+    -*)
+    n=$((p $1))
+    break
+    ;;
+
+    *)
+    n=$1
+    break
+    ;;
+    
+esac
+
+[ $n -gt 100 ]  && n=100
+[ $n -lt 0 ] && n=0
+
+echo "$@ => $n" >&2
+echo $((n * 1500 / 100)) > $b
+

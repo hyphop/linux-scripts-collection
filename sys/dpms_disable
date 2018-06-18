@@ -1,0 +1,14 @@
+#!/bin/sh
+
+## hyphop ##
+
+xset -dpms
+
+#http://www.cyberciti.biz/tips/linux-disable-screen-blanking-screen-going-blank.html
+
+#http://www.unix.com/linux/114712-how-disable-atomatic-screen-blanking-linux-console.html
+#echo -e '\033[9;0]\033[14;0]' > /dev/console
+
+xset s off
+
+setterm -blank 0 -powersave off -powerdown 0
