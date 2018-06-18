@@ -4,6 +4,34 @@
 
 BIN=$0
 PROG=`basename $0`
+MNTD=/mnt
+
+usage(){
+    echo "$PROG - mount disk by label to $MNTD/*LABEL*
+
+    USAGE: $PROG [ LABEL ]  - mount by label
+	   $PROG            - show disks labels list
+	   $PROG --list     - show mounted to $MNTD/*LABEL*
+
+    LINKS:
+
+        https://github.com/hyphop/linux-scripts-collection
+
+    "
+}
+
+for i in "$@"; do
+case "$i" in
+    --help|-h)
+    usage
+    exit 0
+    ;;
+    --list|-l)
+    df | grep "$MNTD"
+    exit 0
+    ;;
+esac
+done
 
 permup(){
 
@@ -16,6 +44,7 @@ permup(){
     sudo "$BIN" "$@"
     exit 0
 }
+    return 1
 
 }
 
@@ -30,7 +59,6 @@ LABEL="$1"
 ##
 LABEL=`basename "$LABEL"`
 
-MNTD=/mnt
 MNT=$MNTD/$LABEL
 MOUNTED=
 
@@ -38,6 +66,7 @@ eval `blkid -l -t LABEL="$LABEL" -o export`
 
 
 [ "$DEVNAME" ] || {
+    permup "$@" && exit 0
     echo  "[e] LABEL: $LABEL not found" >&2
     exit 0
 }

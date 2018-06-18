@@ -1,0 +1,4 @@
+*.log
+*.conf
+git_*
+.tmp*
