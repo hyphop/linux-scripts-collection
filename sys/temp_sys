@@ -1,0 +1,5 @@
+#!/bin/sh
+
+## hyphop ##
+
+grep "" /sys/class/thermal/thermal_zone?/t???

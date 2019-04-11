@@ -2,6 +2,7 @@
 
 ## hyphop ##
 
+
 d=/sys/class/backlight/intel_backlight/
 
 m=$d/max_brightness
@@ -15,7 +16,8 @@ p=$((now*100/max))
 
 
 [ "$@" ] || {
-    echo "$now ($p)"
+#    echo "NOW: $now ($p) / MAX: $max (100)"
+    echo "$p"
     exit 0
 }
 

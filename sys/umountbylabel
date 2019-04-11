@@ -1,0 +1,5 @@
+#!/bin/sh
+
+## hyphop ##
+
+umount LABEL=$1

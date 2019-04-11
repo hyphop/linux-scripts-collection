@@ -1,0 +1,13 @@
+#!/bin/sh
+
+## hyphop ##
+
+dev=/dev/serial/by-id/usb-Prolific_Technology_Inc._USB-Serial_Controller-if00-port0
+[ -e $dev ] || dev=/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_AH01CDYG-if00-port0
+
+B=115200
+
+while [ "1" ] ; do 
+    sudo screen $dev $B
+    sleep 1
+done

@@ -87,6 +87,8 @@ permup "$@"
 
 [ "$TYPE" = "vfat" ] && ARG="$ARG -o iocharset=utf8,codepage=866"
 
+[ -d $MNT ] || mkdir -p $MNT
+
 echo "[i] mount ($TYPE) LABEL=$LABEL $ARG $MNT" >&2
 mount "LABEL=$LABEL" $ARG "$MNT"
 
